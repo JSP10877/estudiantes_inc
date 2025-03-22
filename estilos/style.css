@@ -1,0 +1,20 @@
+
+/*Estilo para quitar margenes de la pagina*/
+
+* {
+    margin: 0; 
+    box-sizing: border-box; /*Esto asegura que el tamaño de un elemento incluya el relleno y el borde dentro de las dimensiones definidas*/
+}
+
+/*Index*/
+
+#test_css p{
+   font-size: 150%;
+   color: red;
+}
+
+/*Registro*/
+
+/*Pagina_adm_estudiantes*/
+
+/*mas_detalles_estudiantes*/
