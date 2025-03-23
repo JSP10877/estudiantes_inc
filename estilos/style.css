@@ -1,5 +1,4 @@
-
-/*Estilo para quitar margenes de la pagina*/
+/*Estilo para quitar márgenes de la página*/
 
 * {
     margin: 0; 
@@ -33,7 +32,6 @@ footer {
 }
 #logo2 img {
     height: 50px; /* Ajusta el tamaño del logo */
-    
 }
 nav ul {
     list-style: none;
@@ -96,9 +94,11 @@ nav ul li a:hover {
 
 
 #test_css p{
-   
+    
    font-size: 150%;
    color: red;
+   font-weight: bold; /* AÑADIDO TEXTO EN MAYÚSCULAS */
+   text-transform: uppercase; /* CONVIERTE EL TEXTO EN MAYÚSCULAS */
 }
 
 /*Registro*/
