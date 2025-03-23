@@ -6,14 +6,146 @@
     box-sizing: border-box; /*Esto asegura que el tamaño de un elemento incluya el relleno y el borde dentro de las dimensiones definidas*/
 }
 
-/*Index*/
+/*inicio*/
+
+body{
+    font-family: sans-serif; /* Fuente general */
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8; /* Un fondo claro */
+}
+header {
+    background-color: #fce8c8; /* Color de fondo del header (amarillo claro) */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+footer {
+    background-color: #fce8c8; /* Color de fondo del header (amarillo claro) */
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+#logo img {
+    height: 50px; /* Ajusta el tamaño del logo */
+}
+#logo2 img {
+    height: 50px; /* Ajusta el tamaño del logo */
+    
+}
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li a {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    color: #333; /* Color del texto del enlace */
+    margin-left: 20px; /* Añade margen izquierdo a los enlaces */
+    padding: 5px 10px; /* Añade relleno interno a los enlaces */
+    border-radius: 5px; /* Redondea las esquinas de los enlaces */
+}  
+    
+nav ul li a:hover {
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
+}
+
+#inicio{
+    text-align: center;
+    padding: 20px;
+}
+#bloque1 h1 {
+    font-size: 2.5em; /* Tamaño de la fuente del título */
+    margin-bottom: 10px; /* Añade margen inferior al título */
+}
+
+#bloque1 h2 {
+    font-size: 1.2em; /* Tamaño de la fuente del subtítulo */
+    color: #666; /* Color del texto del subtítulo */
+}
+.targeta {
+    background-color: #fce8c8; /* Color de fondo de las tarjetas */
+    width: 150px; /* Ancho de las tarjetas */
+    height: 150px; /* Altura de las tarjetas */
+    border-radius: 10px; /* Redondea las esquinas de las tarjetas */
+    display: flex; /* Utiliza flexbox para organizar los elementos */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    margin: 20px auto; /* Añade margen externo a las tarjetas */
+    
+}
+
+.targeta img {
+    max-width: 80%; /* Ancho máximo de la imagen dentro de la tarjeta */
+    max-height: 80%; /* Altura máxima de la imagen dentro de la tarjeta */
+}
+.boton-enlace {
+    background-color:  #f0f0f0; /* Color de fondo de los botones */
+    border: none; /* Elimina el borde de los botones */
+    padding: 10px 20px; /* Añade relleno interno a los botones */
+    border-radius: 5px; /* Redondea las esquinas de los botones */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    font-size: 1em; /* Tamaño de la fuente del texto del botón */
+}
+
+.boton-enlace h2 {
+    margin: 0; /* Elimina el margen del título dentro del botón */
+}
+
 
 #test_css p{
+   
    font-size: 150%;
    color: red;
 }
 
 /*Registro*/
+form {
+    background-color: #f0f0f0; /* Establece el color de fondo del formulario */
+    padding: 20px; /* Añade relleno interno al formulario para espacio alrededor del contenido */
+    margin: 20px auto; /* Añade margen externo al formulario y lo centra horizontalmente */
+    width: 80%; /* Establece el ancho del formulario al 80% del contenedor padre */
+    max-width: 600px; /* Establece un ancho máximo para el formulario */
+    border-radius: 10px; /* Redondea las esquinas del formulario */
+}
+
+form h1 {
+    text-align: center; /* Centra el texto del título dentro del formulario */
+    margin-bottom: 20px; /* Añade margen inferior al título */
+}
+
+form h2 {
+    margin-bottom: 10px; /* Añade margen inferior a los subtítulos dentro del formulario */
+}
+
+form div {
+    margin-bottom: 15px; /* Añade margen inferior a los divs dentro del formulario para separar los campos */
+}
+form label {
+    display: block; /* Hace que las etiquetas ocupen toda la línea */
+    margin-bottom: 5px; /* Añade margen inferior a las etiquetas */
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="date"],
+form select {
+    width: 100%; /* Hace que los campos de entrada ocupen todo el ancho disponible */
+    padding: 10px; /* Añade relleno interno a los campos de entrada */
+    border: 1px solid #ccc; /* Añade un borde a los campos de entrada */
+    border-radius: 5px; /* Redondea las esquinas de los campos de entrada */
+}
+
+form button {
+    background-color: #d4d4d4; /* Establece el color de fondo del botón */
+    border: none; /* Elimina el borde del botón */
+    padding: 10px 20px; /* Añade relleno interno al botón */
+    border-radius: 5px; /* Redondea las esquinas del botón */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón sobre el botón */
+    font-size: 1em; /* Establece el tamaño de la fuente del botón */
+}
 
 /*Pagina_adm_estudiantes*/
 

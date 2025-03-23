@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilos/style.css">
+</head>
+<body>
+    <header>
+        <div id="logo">
+            <img src="imagenes/logotipo.png" alt="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="inicio.html">inicio</a></li>
+                <li><a href="">registro estudiantes</a></li>
+                <li><a href="">admi. estudiantes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <form action="/procesar_formulario" method="post" enctype="multipart/form-data">
+        <h1>Informacion del estudiante</h1>
+        <h2>Informacion personal</h2>
+        <div>
+            <label for="primer_nombre">Primer Nombre:</label>
+            <input type="text" id="primer_nombre" name="primer_nombre" required>
+        </div>
+        <div>
+            <label for="segundo_nombre">Segundo Nombre:</label>
+            <input type="text" id="segundo_nombre" name="segundo_nombre">
+        </div>
+        <div>
+            <label for="primer_apellido">Primer Apellido:</label>
+            <input type="text" id="primer_apellido" name="primer_apellido" required>
+        </div>
+        <div>
+            <label for="segundo_apellido">Segundo Apellido:</label>
+            <input type="text" id="segundo_apellido" name="segundo_apellido">
+        </div>
+        <div>
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" required>
+        </div>
+        <div>
+            <label for="fecha_inscripcion">Fecha de Inscripción:</label>
+            <input type="date" id="fecha_inscripcion" name="fecha_inscripcion" required>
+        </div>
+        <div>
+            <label for="carrera">Carrera:</label>
+            <select id="carrera" name="carrera" required>
+                <option value="">Seleccione una carrera</option>
+                <option value="ingenieria_sistemas">Ingeniería de Sistemas</option>
+                <option value="medicina">Medicina</option>
+                <option value="derecho">Derecho</option>
+                <option value="arquitectura">Arquitectura</option>
+            </select>
+        </div>
+        <div>
+            <label for="foto">Foto:</label>
+            <input type="file" id="foto" name="foto" accept="image/*" required>
+        </div>
+        <button type="submit">Enviar</button>
+    </form>
+
+
+    
+    <footer >
+        <div id="logo2">
+            <img src="imagenes/logotipo.png" alt="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="">contactanos</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+</html>
