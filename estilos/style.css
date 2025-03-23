@@ -165,4 +165,49 @@ form button {
 
 /*Pagina_adm_estudiantes*/
 
+/* Estilo de la barra de búsqueda */
+#barra_de_busqueda {
+    width: 530px; 
+    padding: 10px 20px; 
+    background-color: #e0e0e0; 
+    border-radius: 25px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    display: flex;
+    align-items: center; /* Centra elementos verticalmente dentro de la barra */
+    margin: auto; 
+    margin-top: 2%;
+}
+
+/* Entrada de texto */
+#barra_de_busqueda input {
+    flex-grow: 1;
+    border: none;
+    background: none;
+    padding: 8px;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 30px;
+}
+
+/* Quitar borde al enfocar */
+#barra_de_busqueda input:focus {
+    outline: none;
+}
+
+/* Iconos */
+#barra_de_busqueda .icono_1, 
+#barra_de_busqueda .icono_2 {
+    margin-left: 10px;
+}
+
+#barra_de_busqueda .icono_1 img, 
+#barra_de_busqueda .icono_2 img {
+    width: 34px;
+    height: 34px;
+}
+
+.icono_2 img{
+    border-radius: 8px;
+}
+
 /*mas_detalles_estudiantes*/
