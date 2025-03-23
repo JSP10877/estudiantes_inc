@@ -13,6 +13,7 @@ body{
     padding: 0;
     background-color: #f8f8f8; /* Un fondo claro */
 }
+
 header {
     background-color: #fce8c8; /* Color de fondo del header (amarillo claro) */
     display: flex;
@@ -20,19 +21,15 @@ header {
     align-items: center;
     padding: 10px 20px;
 }
-footer {
-    background-color: #fce8c8; /* Color de fondo del header (amarillo claro) */
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-}
+
 #logo img {
     height: 50px; /* Ajusta el tamaño del logo */
 }
-#logo2 img {
-    height: 50px; /* Ajusta el tamaño del logo */
+
+ul{
+    margin-bottom: 0%;
 }
+
 nav ul {
     list-style: none;
     display: flex;
@@ -50,6 +47,7 @@ nav ul li a:hover {
     background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
 }
 
+
 #inicio{
     text-align: center;
     padding: 20px;
@@ -57,13 +55,16 @@ nav ul li a:hover {
 #bloque1 h1 {
     font-size: 2.5em; /* Tamaño de la fuente del título */
     margin-bottom: 10px; /* Añade margen inferior al título */
+    font-weight: bold;
 }
 
 #bloque1 h2 {
     font-size: 1.2em; /* Tamaño de la fuente del subtítulo */
     color: #666; /* Color del texto del subtítulo */
+    font-weight: bold;
 }
-.targeta {
+
+.tarjeta {
     background-color: #fce8c8; /* Color de fondo de las tarjetas */
     width: 150px; /* Ancho de las tarjetas */
     height: 150px; /* Altura de las tarjetas */
@@ -75,10 +76,11 @@ nav ul li a:hover {
     
 }
 
-.targeta img {
+.tarjeta img {
     max-width: 80%; /* Ancho máximo de la imagen dentro de la tarjeta */
     max-height: 80%; /* Altura máxima de la imagen dentro de la tarjeta */
 }
+
 .boton-enlace {
     background-color:  #f0f0f0; /* Color de fondo de los botones */
     border: none; /* Elimina el borde de los botones */
@@ -92,14 +94,18 @@ nav ul li a:hover {
     margin: 0; /* Elimina el margen del título dentro del botón */
 }
 
-
-#test_css p{
-    
-   font-size: 150%;
-   color: red;
-   font-weight: bold; /* AÑADIDO TEXTO EN MAYÚSCULAS */
-   text-transform: uppercase; /* CONVIERTE EL TEXTO EN MAYÚSCULAS */
+footer {
+    background-color: #fce8c8; /* Color de fondo del header (amarillo claro) */
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
 }
+
+#logo2 img {
+    height: 50px; /* Ajusta el tamaño del logo */
+}
+
 
 /*Registro*/
 form {
@@ -114,10 +120,14 @@ form {
 form h1 {
     text-align: center; /* Centra el texto del título dentro del formulario */
     margin-bottom: 20px; /* Añade margen inferior al título */
+    font-weight: bold;
+    font-size: 32px;
 }
 
 form h2 {
     margin-bottom: 10px; /* Añade margen inferior a los subtítulos dentro del formulario */
+    font-weight: bold;
+    font-size: 25px;
 }
 
 form div {
@@ -129,7 +139,13 @@ form label {
 }
 
 form input[type="text"],
-form input[type="email"],
+form input[type="email"] {
+    width: 100%; /* Hace que los campos de entrada ocupen todo el ancho disponible */
+    padding: 8px; /* Añade relleno interno a los campos de entrada */
+    border: 1px solid #ccc; /* Añade un borde a los campos de entrada */
+    border-radius: 5px; /* Redondea las esquinas de los campos de entrada */
+}
+
 form input[type="date"],
 form select {
     width: 100%; /* Hace que los campos de entrada ocupen todo el ancho disponible */
