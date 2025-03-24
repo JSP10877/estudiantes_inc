@@ -227,6 +227,78 @@ form button {
     border-radius: 8px;
 }
 
+/* Contenedor principal de estudiantes */
+#contenedor_estudiantes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Tarjeta estilo píldora */
+#tarjeta_estudiante {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 50px; /* Forma de píldora */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dddddd;
+    width: 400px;
+    padding: 10px 15px;
+    font-family: Arial, sans-serif;
+    position: relative; /* Para posicionar los íconos */
+}
+
+/* Foto del estudiante */
+#foto_admi_estudiante {
+    width: 60px;
+    height: 60px;
+    background-color: #dcdcdc; /* Fondo gris para placeholder */
+    border-radius: 50%; /* Forma circular */
+    background-image: url('/imagenes/estudiante.jpg'); /* Reemplaza con la ruta de tu imagen */
+    background-size: cover;
+    background-position: center;
+    margin-right: 15px;
+}
+
+/* Información del estudiante */
+#información_main_estudiante .info_estudiante {
+    flex-grow: 1; /* Toma el espacio disponible */
+}
+
+#información_main_estudiante .info_estudiante h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #343a40;
+}
+
+#información_main_estudiante .info_estudiante p {
+    margin: 3px 0;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* Iconos de acciones */
+#botones_principales .action-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+}
+
+#botones_principales .action-icons img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+#botones_principales .action-icons img:hover {
+    filter: brightness(0.8);
+}
+
 /*mas_detalles_estudiantes*/
 /* Imagen estudiante */
 #foto_estudiante {
