@@ -48,17 +48,27 @@ nav ul li a:hover {
 }
 
 
-#inicio{
-    text-align: center;
-    padding: 20px;
+#inicio {
+    display: flex; /* Activa el modo flexbox */
+    justify-content: center; /* Centra horizontalmente los bloques */
+    align-items: center; /* Alinea verticalmente los bloques */
+    gap: 40px; /* Espacio entre los bloques */
+    flex-wrap: wrap; /* Permite que los bloques se acomoden en múltiples líneas si es necesario en pantallas más pequeñas */
 }
-#bloque1 h1 {
+
+#bienvenida{
+    text-align: center;
+    margin-top: 2%;
+}
+
+#bienvenida h1 {
     font-size: 2.5em; /* Tamaño de la fuente del título */
     margin-bottom: 10px; /* Añade margen inferior al título */
     font-weight: bold;
+    
 }
 
-#bloque1 h2 {
+#bienvenida h2 {
     font-size: 1.2em; /* Tamaño de la fuente del subtítulo */
     color: #666; /* Color del texto del subtítulo */
     font-weight: bold;
@@ -94,6 +104,14 @@ nav ul li a:hover {
     margin: 0; /* Elimina el margen del título dentro del botón */
 }
 
+#bloque1, #bloque2 {
+    text-align: center; /* Centra el contenido dentro de cada bloque */
+    flex: 1 1 auto; /* Ajusta el tamaño de los bloques automáticamente */
+    max-width: 300px; /* Limita el ancho máximo de cada bloque */
+    margin: 4% 0%;
+}
+
+
 footer {
     background-color: #fce8c8; /* Color de fondo del header (amarillo claro) */
     display:flex;
@@ -105,7 +123,6 @@ footer {
 #logo2 img {
     height: 50px; /* Ajusta el tamaño del logo */
 }
-
 
 /*Registro*/
 form {
