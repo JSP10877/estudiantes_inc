@@ -228,3 +228,15 @@ form button {
 }
 
 /*mas_detalles_estudiantes*/
+/* Imagen estudiante */
+#foto_estudiante {
+    display: block;
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+
+}
+

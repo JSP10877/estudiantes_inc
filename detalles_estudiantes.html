@@ -15,76 +15,126 @@
 </head>
 
 <body>
-    <header class="bg-warning p-2 text-center">
-        <nav class="d-flex justify-content-around">
-            <button class="btn btn-light">Inicio</button>
-            <button class="btn btn-light">Registro Estudiantes</button>
-            <button class="btn btn-light">Admin. Estudiantes</button>
+    <header id="header">
+        <div id="logo">
+            <img src="imagenes/logotipo.png" alt="logo">
+        </div>
+        <nav id="navbar">
+            <ul>
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="">Registro Estudiantes</a></li>
+                <li><a href="">Administración de Estudiantes</a></li>
+            </ul>
         </nav>
     </header>
 
-    <section class="container mt-4">
+    <section id="info-estudiante" class="container mt-4">
         <h1 class="text-center">Detalles del estudiante</h1>
-        <div class="text-center mb-3">
-            <img src="https://via.placeholder.com/150" alt="Foto estudiante" class="rounded-circle">
+        <div id="foto-estudiante" class="text-center mb-3">
+            <img src="/imagenes/estudiante.jpg" alt="Foto estudiante" class="rounded-circle" width="200" height="200">
         </div>
 
-        <div class="row">
-            <div class="col-6">
-                <label>1. Primer nombre</label>
-                <input type="text" class="form-control">
+        <form id="form-estudiante">
+            <div class="row">
+                <div class="col-6">
+                    <label for="primer_nombre">1. Primer nombre</label>
+                    <input type="text" id="primer_nombre" class="form-control" required>
+                </div>
+                <div class="col-6">
+                    <label for="segundo_nombre">2. Segundo nombre</label>
+                    <input type="text" id="segundo_nombre" class="form-control">
+                </div>
+                <div class="col-6 mt-2">
+                    <label for="primer_apellido">3. Primer apellido</label>
+                    <input type="text" id="primer_apellido" class="form-control" required>
+                </div>
+                <div class="col-6 mt-2">
+                    <label for="segundo_apellido">4. Segundo apellido</label>
+                    <input type="text" id="segundo_apellido" class="form-control">
+                </div>
+                <div class="col-6 mt-2">
+                    <label for="correo">5. Correo</label>
+                    <input type="email" id="correo" class="form-control" required>
+                </div>
+                <div class="col-6 mt-2">
+                    <label for="fecha_inscripcion">6. Fecha de inscripción</label>
+                    <input type="date" id="fecha_inscripcion" class="form-control" required>
+                </div>
+                <div class="col-6 mt-2">
+                    <label for="carrera">7. Carrera</label>
+                    <input type="text" id="carrera" class="form-control" required>
+                </div>
+                <div class="col-6 mt-2">
+                    <label for="facultad">8. Facultad</label>
+                    <input type="text" id="facultad" class="form-control" required>
+                </div>
             </div>
-            <div class="col-6">
-                <label>2. Segundo nombre</label>
-                <input type="text" class="form-control">
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
-            <div class="col-6 mt-2">
-                <label>3. Primer apellido</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-6 mt-2">
-                <label>4. Segundo apellido</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-6 mt-2">
-                <label>5. Correo</label>
-                <input type="email" class="form-control">
-            </div>
-            <div class="col-6 mt-2">
-                <label>6. Fecha de inscripción</label>
-                <input type="date" class="form-control">
-            </div>
-            <div class="col-6 mt-2">
-                <label>7. Carrera</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-6 mt-2">
-                <label>8. Facultad</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
+        </form>
     </section>
 
     <section class="container mt-4">
         <h2 class="text-center">Materias por semestre</h2>
-        <div class="d-grid gap-2">
-            <!-- Semestres -->
-            <button class="btn btn-secondary">Semestre 1 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 2 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 3 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 4 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 5 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 6 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 7 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 8 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 9 <span class="float-end">V</span></button>
-            <button class="btn btn-secondary">Semestre 10 <span class="float-end">V</span></button>
+        <div class="accordion" id="accordionSemestres">
+            <!-- Semestre 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#semestre1" aria-expanded="true" aria-controls="semestre1">
+                        Semestre 1
+                    </button>
+                </h2>
+                <div id="semestre1" class="accordion-collapse collapse show" data-bs-parent="#accordionSemestres">
+                    <div class="accordion-body">
+                        Matemáticas Básicas, Introducción a la Programación, Comunicación Oral y Escrita
+                    </div>
+                </div>
+            </div>
+            <!-- Semestre 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre2" aria-expanded="false" aria-controls="semestre2">
+                        Semestre 2
+                    </button>
+                </h2>
+                <div id="semestre2" class="accordion-collapse collapse" data-bs-parent="#accordionSemestres">
+                    <div class="accordion-body">
+                        Álgebra Lineal, Programación Orientada a Objetos, Física
+                    </div>
+                </div>
+            </div>
+            <!-- Semestre 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre3" aria-expanded="false" aria-controls="semestre3">
+                        Semestre 3
+                    </button>
+                </h2>
+                <div id="semestre3" class="accordion-collapse collapse" data-bs-parent="#accordionSemestres">
+                    <div class="accordion-body">
+                        Estructura de Datos, Bases de Datos, Estadística
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+    <footer id="footer">
+        <div id="logo2">
+            <img src="imagenes/logotipo.png" alt="logo">
+        </div>
+        <nav id="footer-nav">
+            <ul>
+                <li><a href="">Contáctanos</a></li>
+            </ul>
+        </nav>
+    </footer>
 </body>
 
 </html>
