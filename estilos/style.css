@@ -5,7 +5,9 @@
     box-sizing: border-box; /*Esto asegura que el tamaño de un elemento incluya el relleno y el borde dentro de las dimensiones definidas*/
 }
 
+/*----------------------------------------------------------*/
 /*inicio*/
+/*----------------------------------------------------------*/
 
 body{
     font-family: sans-serif; /* Fuente general */
@@ -124,7 +126,10 @@ footer {
     height: 50px; /* Ajusta el tamaño del logo */
 }
 
+
+/*----------------------------------------------------------*/
 /*Registro*/
+/*----------------------------------------------------------*/
 form {
     background-color: #f0f0f0; /* Establece el color de fondo del formulario */
     padding: 20px; /* Añade relleno interno al formulario para espacio alrededor del contenido */
@@ -180,7 +185,10 @@ form button {
     font-size: 1em; /* Establece el tamaño de la fuente del botón */
 }
 
+
+/*----------------------------------------------------------*/
 /*Pagina_adm_estudiantes*/
+/*----------------------------------------------------------*/
 
 /* Estilo de la barra de búsqueda */
 #barra_de_busqueda {
@@ -321,16 +329,15 @@ form button {
     filter: brightness(0.8);
 }
 
+
+/*----------------------------------------------------------*/
 /*mas_detalles_estudiantes*/
+/*----------------------------------------------------------*/
+
+
 /* Imagen estudiante */
-#foto_estudiante {
-    display: block;
-    margin: 0 auto;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ddd;
-
+#foto-estudiante img {
+    border-radius: 10px ;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    margin: 4% 0%;
 }
-
