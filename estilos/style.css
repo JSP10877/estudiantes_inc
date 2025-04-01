@@ -393,6 +393,7 @@ form button {
 
     #información_main_estudiante .info_estudiante p {
         font-size: 11px; /* Texto del correo y carrera más pequeño */
+        max-width: 160px;
     }
 
     #botones_principales .action-icons img {
