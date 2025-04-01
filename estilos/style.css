@@ -115,6 +115,7 @@ nav ul li a:hover {
 
 
 footer {
+    margin-top: 6%;
     background-color: #fce8c8; /* Color de fondo del header (amarillo claro) */
     display:flex;
     justify-content: space-between;
