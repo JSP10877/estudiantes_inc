@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del estudiante</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!-- Hoja de estilos personalizada -->
     <link rel="stylesheet" href="./estilos/style.css">
 </head>
 
@@ -33,52 +31,28 @@
         <div id="foto-estudiante" class="text-center mb-3">
             <img src="/imagenes/estudiante.jpg" alt="Foto estudiante" width="200" height="200">
         </div>
-
-        <form id="form-estudiante">
+        
+        <div id="detalles-estudiante" class="card p-3">
             <div class="row">
-                <div class="col-6">
-                    <label for="primer_nombre">1. Primer nombre</label>
-                    <input type="text" id="primer_nombre" class="form-control" required>
+                <div class="col-md-6">
+                    <p><strong>1. Primer nombre:</strong> Juan</p>
+                    <p><strong>3. Primer apellido:</strong> Martínez</p>
+                    <p><strong>5. Correo:</strong> u20241232487@usco.edu.co</p>
+                    <p><strong>7. Carrera:</strong> Tecnología en Desarrollo de Software</p>
                 </div>
-                <div class="col-6">
-                    <label for="segundo_nombre">2. Segundo nombre</label>
-                    <input type="text" id="segundo_nombre" class="form-control">
-                </div>
-                <div class="col-6 mt-2">
-                    <label for="primer_apellido">3. Primer apellido</label>
-                    <input type="text" id="primer_apellido" class="form-control" required>
-                </div>
-                <div class="col-6 mt-2">
-                    <label for="segundo_apellido">4. Segundo apellido</label>
-                    <input type="text" id="segundo_apellido" class="form-control">
-                </div>
-                <div class="col-6 mt-2">
-                    <label for="correo">5. Correo</label>
-                    <input type="email" id="correo" class="form-control" required>
-                </div>
-                <div class="col-6 mt-2">
-                    <label for="fecha_inscripcion">6. Fecha de inscripción</label>
-                    <input type="date" id="fecha_inscripcion" class="form-control" required>
-                </div>
-                <div class="col-6 mt-2">
-                    <label for="carrera">7. Carrera</label>
-                    <input type="text" id="carrera" class="form-control" required>
-                </div>
-                <div class="col-6 mt-2">
-                    <label for="facultad">8. Facultad</label>
-                    <input type="text" id="facultad" class="form-control" required>
+                <div class="col-md-6">
+                    <p><strong>2. Segundo nombre:</strong> Esteban</p>
+                    <p><strong>4. Segundo apellido:</strong> Perdomo</p>
+                    <p><strong>6. Fecha de inscripción:</strong> 3 de diciembre del 2023</p>
+                    <p><strong>8. Facultad:</strong> Facultad de Ingeniería</p>
                 </div>
             </div>
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
+        </div>
     </section>
 
     <section class="container mt-4" style="margin-bottom: 2%;">
         <h2 class="text-center">Materias por semestre</h2>
         <div class="accordion" id="accordionSemestres">
-            <!-- Semestre 1 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#semestre1" aria-expanded="false" aria-controls="semestre1">
@@ -91,7 +65,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 2 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre2" aria-expanded="false" aria-controls="semestre2">
@@ -104,7 +77,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 3 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre3" aria-expanded="false" aria-controls="semestre3">
@@ -117,7 +89,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 4 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre4" aria-expanded="false" aria-controls="semestre4">
@@ -130,7 +101,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 5 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre5" aria-expanded="false" aria-controls="semestre5">
@@ -143,7 +113,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 6 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre6" aria-expanded="false" aria-controls="semestre6">
@@ -156,7 +125,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 7 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre7" aria-expanded="false" aria-controls="semestre7">
@@ -169,7 +137,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 8 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre8" aria-expanded="false" aria-controls="semestre8">
@@ -182,7 +149,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 9 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre9" aria-expanded="false" aria-controls="semestre9">
@@ -195,7 +161,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Semestre 10 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#semestre10" aria-expanded="false" aria-controls="semestre10">
@@ -211,7 +176,6 @@
         </div>
     </section>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

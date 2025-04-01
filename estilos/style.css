@@ -334,10 +334,34 @@ form button {
 /*mas_detalles_estudiantes*/
 /*----------------------------------------------------------*/
 
-
 /* Imagen estudiante */
 #foto-estudiante img {
     border-radius: 10px ;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
     margin: 4% 0%;
+}
+
+#detalles-estudiante .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#detalles-estudiante .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 15px; 
+}
+
+#detalles-estudiante p {
+    margin-bottom: 8px; 
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    
+    #detalles-estudiante .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
 }
