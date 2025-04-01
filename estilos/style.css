@@ -356,9 +356,97 @@ form button {
     margin-bottom: 8px; 
 }
 
+
+/* Responsive para pantallas medianas (tabletas) */
+@media (max-width: 768px) {
+    /* Barra de búsqueda */
+    #barra_de_busqueda {
+        width: 100%; /* Se ajusta al ancho del contenedor */
+        padding: 8px 10px; /* Reduce el espacio interno */
+    }
+
+    #barra_de_busqueda input {
+        font-size: 14px; /* Texto más pequeño */
+        padding: 8px; /* Menos espacio interno */
+    }
+
+    #barra_de_busqueda .icon img {
+        width: 20px; /* Iconos más pequeños */
+        height: 20px;
+    }
+
+    /* Tarjetas de estudiantes (cápsulas) */
+    #tarjeta_estudiante {
+        width: 380px; /* Reduce el ancho */
+        padding: 8px 10px; /* Ajusta el espacio interno */
+        border-radius: 20px; /* Ajusta el estilo redondeado */
+    }
+
+    #foto_admi_estudiante {
+        width: 50px; /* Foto más pequeña */
+        height: 50px;
+    }
+
+    #información_main_estudiante .info_estudiante h3 {
+        font-size: 14px; /* Texto del nombre más pequeño */
+    }
+
+    #información_main_estudiante .info_estudiante p {
+        font-size: 11px; /* Texto del correo y carrera más pequeño */
+    }
+
+    #botones_principales .action-icons img {
+        width: 30px; /* Iconos más pequeños */
+        height: 28px;
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    
+
+    /*Responsive administración de estudiantes*/
+     /* Barra de búsqueda */
+     #barra_de_busqueda {
+        width: 80%;
+        padding: 5px 8px;
+    }
+
+    #barra_de_busqueda input {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    #barra_de_busqueda .icon img {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Tarjetas de estudiantes (cápsulas) */
+    #tarjeta_estudiante {
+        width: 100%; /* Ocupar todo el ancho disponible */
+        padding: 6px 8px;
+        border-radius: 15px;
+    }
+
+    #foto_admi_estudiante {
+        width: 40px;
+        height: 40px;
+    }
+
+    #información_main_estudiante .info_estudiante h3 {
+        font-size: 12px;
+    }
+
+    #información_main_estudiante .info_estudiante p {
+        font-size: 10px;
+    }
+
+    #botones_principales .action-icons img {
+        width: 25px;
+        height: 24px;
+    }
+
+    /*Responsive detalles estudiantes*/
     #detalles-estudiante .col-md-6 {
         flex: 0 0 100%;
         max-width: 100%;
