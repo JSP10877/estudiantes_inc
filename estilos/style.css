@@ -292,7 +292,7 @@ form button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100%;
+    max-width: 80%;
 }
 
 #información_main_estudiante .info_estudiante p {
