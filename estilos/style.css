@@ -335,6 +335,10 @@ form button {
 /*mas_detalles_estudiantes*/
 /*----------------------------------------------------------*/
 
+#info-estudiante .container{
+    max-width: 1000px;
+}
+
 /* Imagen estudiante */
 #foto-estudiante img {
     border-radius: 10px ;
@@ -357,9 +361,20 @@ form button {
     margin-bottom: 8px; 
 }
 
+#semestres .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+max-width: 1000px;
+}
+
 
 /* Responsive para pantallas medianas (tabletas) */
 @media (max-width: 768px) {
+
+    /*Index*/
+    header nav ul {
+        list-style: outside;
+        display: contents;
+    }
+
     /* Barra de búsqueda */
     #barra_de_busqueda {
         width: 100%; /* Se ajusta al ancho del contenedor */
