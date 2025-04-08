@@ -358,7 +358,10 @@ form button {
 }
 
 #detalles-estudiante p {
-    margin-bottom: 8px; 
+    margin-bottom: 24px;
+    background-color: #ced5df;
+    border-radius: 4px;
+    padding: 7px 14px;
 }
 
 #semestres .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
