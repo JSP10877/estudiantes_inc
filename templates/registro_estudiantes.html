@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
   <!-- Tus estilos -->
-  <link rel="stylesheet" href="estilos/style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos/style.css') }}">
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
@@ -19,20 +19,19 @@
 <body>
     <header>
         <div id="logo">
-            <img src="imagenes/logotipo.png" alt="logo">
+            <img src="{{ url_for('static', filename='imagenes/logotipo.png') }}" alt="logo">
         </div>
         <nav>
             <ul>
-                <li><a href="/estudiantes_inc/index.html">Inicio</a></li>
-                <li><a href="/estudiantes_inc/registro_estudiantes.html">Registro estudiantes</a></li>
-                <li><a href="/estudiantes_inc/adm_estudiantes.html">Admi. estudiantes</a></li>
+                <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('registro_estudiantes') }}">Registro estudiantes</a></li>
+                <li><a href="{{ url_for('adm_estudiantes') }}">Admi. estudiantes</a></li>
             </ul>
         </nav>
     </header>
 
 
-    <form action="/procesar_formulario" method="post" enctype="multipart/form-data"> <!--Se quitó el quitó el get en post y el "/" en procesar-->
-        <h1>Registro de estudiante</h1>
+    <form action="/registro_estudiantes" method="post" enctype="multipart/form-data">
         <div>
             <label for="primer_nombre">Primer Nombre:</label>
             <input type="text" id="primer_nombre" name="primer_nombre" required>
@@ -61,15 +60,18 @@
             <label for="carrera">Carrera:</label>
             <select id="carrera" name="carrera" required>
                 <option value="">Seleccione una carrera</option>
-                <option value="ingenieria_sistemas">Ingeniería de Sistemas</option>
-                <option value="medicina">Medicina</option>
-                <option value="derecho">Derecho</option>
-                <option value="arquitectura">Arquitectura</option>
+                {% for carrera in carreras %}
+                <option value="{{ carrera[0] }}">{{ carrera[1] }}</option>
+                {% endfor %}
             </select>
         </div>
         <div>
             <label for="foto">Foto:</label>
-            <input type="file" id="foto" name="foto" accept="image/*" required> <!--El asterisco (*) despues del "/" de image-->
+            <input type="file" id="foto" name="foto" accept="image/*" required>
+        </div>
+        <div>
+            <label for="documento_estudiante">Documento de Identidad:</label>
+            <input type="text" id="documento_estudiante" name="documento_estudiante" required>
         </div>
         <button type="submit">Enviar</button>
     </form>
