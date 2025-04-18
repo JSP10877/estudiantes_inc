@@ -68,12 +68,66 @@ def registro_estudiantes():
 # Ruta para la página de administración de estudiantes
 @app.route('/adm_estudiantes')
 def adm_estudiantes():
-    return render_template('adm_estudiantes.html')
+     # Obtener los datos de los estudiantes desde la base de datos
+    cursor = db.cursor()
+    sql = """
+        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+    """
+    cursor.execute(sql)
+    estudiantes = cursor.fetchall()  # Lista de tuplas con los datos de los estudiantes
+
+    # Pasar los datos al archivo HTML
+    return render_template('adm_estudiantes.html', estudiantes=estudiantes)
+    
+    
+    
 
 # Ruta para la página de detalles de estudiantes
-@app.route('/detalles_estudiantes')
-def detalles_estudiantes():
-    return render_template('detalles_estudiantes.html')
+@app.route('/detalles_estudiantes/<int:id_estudiante>')
+def detalles_estudiantes(id_estudiante):
+    # Obtener los detalles del estudiante desde la base de datos
+    cursor = db.cursor()
+    sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
+    cursor.execute(sql, (id_estudiante,))
+    estudiante = cursor.fetchone()  # Obtener una sola fila
+    return render_template('detalles_estudiantes.html',  estudiante=estudiante)
 
+# Ruta para editar estudiante
+@app.route('/editar_estudiante/<int:id_estudiante>', methods=['GET', 'POST'])
+def editar_estudiante(id_estudiante):
+    cursor = db.cursor()
+    if request.method == 'POST':
+        # Actualizar datos del estudiante
+        nombre1 = request.form['nombre1']
+        nombre2 = request.form.get('nombre2', '')
+        apellido1 = request.form['apellido1']
+        apellido2 = request.form.get('apellido2', '')
+        correo = request.form['correo']
+        carrera = int(request.form['carrera'])
+        sql = """
+            UPDATE estudiante
+            SET nombre1 = %s, nombre2 = %s, apellido1 = %s, apellido2 = %s, correo = %s, id_carrera = %s
+            WHERE id_estudiante = %s
+        """
+        cursor.execute(sql, (nombre1, nombre2, apellido1, apellido2, correo, carrera, id_estudiante))
+        db.commit()
+        return redirect(url_for('adm_estudiantes'))
+    else:
+        # Obtener datos del estudiante para editar
+        sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
+        cursor.execute(sql, (id_estudiante,))
+        estudiante = cursor.fetchone()
+        return render_template('editar_estudiante.html', estudiante=estudiante)
+
+# Ruta para eliminar estudiante
+@app.route('/eliminar_estudiante/<int:id_estudiante>')
+def eliminar_estudiante(id_estudiante):
+    cursor = db.cursor()
+    sql = "DELETE FROM estudiante WHERE id_estudiante = %s"
+    cursor.execute(sql, (id_estudiante,))
+    db.commit()
+    return redirect(url_for('adm_estudiantes'))
 if __name__ == '__main__':
     app.run(debug=True)

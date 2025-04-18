@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adm.Estudiantes</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+  <!-- Tus estilos -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos/style.css') }}">
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+  
+</head>
+
+<body>
+    <header>
+        <div id="logo">
+            <img src="{{ url_for('static', filename='imagenes/logotipo.png') }}" alt="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('registro_estudiantes') }}">Registro estudiantes</a></li>
+                <li><a href="{{ url_for('adm_estudiantes') }}">Admi. estudiantes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <form action="/registro_estudiantes" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="primer_nombre">Primer Nombre:</label>
+            <input type="text" id="primer_nombre" name="primer_nombre" required>
+        </div>
+        <div>
+            <label for="segundo_nombre">Segundo Nombre:</label>
+            <input type="text" id="segundo_nombre" name="segundo_nombre">
+        </div>
+        <div>
+            <label for="primer_apellido">Primer Apellido:</label>
+            <input type="text" id="primer_apellido" name="primer_apellido" required>
+        </div>
+        <div>
+            <label for="segundo_apellido">Segundo Apellido:</label>
+            <input type="text" id="segundo_apellido" name="segundo_apellido">
+        </div>
+        <div>
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" required>
+        </div>
+        <div>
+            <label for="fecha_inscripcion">Fecha de Inscripción:</label>
+            <input type="date" id="fecha_inscripcion" name="fecha_inscripcion" required>
+        </div>
+        <div>
+            <label for="carrera">Carrera:</label>
+            <select id="carrera" name="carrera" required>
+                <option value="">Seleccione una carrera</option>
+                {% for carrera in carreras %}
+                <option value="{{ carrera[0] }}">{{ carrera[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="foto">Foto:</label>
+            <input type="file" id="foto" name="foto" accept="image/*" required>
+        </div>
+        <div>
+            <label for="documento_estudiante">Documento de Identidad (PDF):</label>
+            <input type="file" id="documento_estudiante" name="documento_estudiante" accept="application/pdf" required>
+        </div>
+        <button type="submit">Enviar</button>
+    </form>
+
+
+    
+    <footer >
+        <div id="logo2">
+            <img src="imagenes/logotipo.png" alt="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="">contactanos</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+</html>
