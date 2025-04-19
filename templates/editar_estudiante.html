@@ -57,15 +57,6 @@
             <input type="date" id="fecha_inscripcion" name="fecha_inscripcion" >
         </div>
         <div>
-            <label for="carrera">Carrera:</label>
-            <select id="carrera" name="carrera" >
-                <option value="">Seleccione una carrera</option>
-                {% for carrera in carreras %}
-                <option value="{{ carrera[0] }}">{{ carrera[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>
             <label for="foto">Foto:</label>
             <input type="file" id="foto" name="foto" accept="image/*" required>
         </div>

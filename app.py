@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import pymysql
 import os
 
@@ -16,6 +16,11 @@ db = pymysql.connect(
 app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), 'uploads')
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
+    
+# Ruta para servir archivos desde la carpeta 'uploads'
+@app.route('/uploads/<path:filename>')
+def uploads(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Ruta para la página de inicio
 @app.route('/')
@@ -77,9 +82,19 @@ def adm_estudiantes():
     """
     cursor.execute(sql)
     estudiantes = cursor.fetchall()  # Lista de tuplas con los datos de los estudiantes
+    
+    # Construir la URL completa para las imágenes
+    estudiantes_con_imagen = []
+    for estudiante in estudiantes:
+        estudiante = list(estudiante)
+        estudiante[7] = url_for('uploads', filename=estudiante[7])  # Ruta completa de la imagen
+        estudiantes_con_imagen.append(estudiante)
+    
+    
+
 
     # Pasar los datos al archivo HTML
-    return render_template('adm_estudiantes.html', estudiantes=estudiantes)
+    return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
     
     
     
