@@ -58,12 +58,15 @@
         </div>
         <div>
             <label for="carrera">Carrera:</label>
-            <select id="carrera" name="carrera" required>
+            <select id="carrera" name="carrera" disabled>
                 <option value="">Seleccione una carrera</option>
-
-                <option value="{{ carrera[0] }}">{{ carrera[1] }}</option>
+                {% for carrera in carreras %}
+                <option value="{{ carrera[0] }}" {% if estudiante.id_carrera == carrera[0] %}selected{% endif %}>
+                    {{ carrera[1] }}
+                </option>
+                {% endfor %}
             </select>
-        <div>
+        </div>
             <label for="foto">Foto:</label>
             <input type="file" id="foto" name="foto" accept="image/*" required>
         </div>
