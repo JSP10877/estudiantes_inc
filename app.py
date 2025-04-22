@@ -38,7 +38,12 @@ def registro_estudiantes():
         segundo_apellido = request.form.get('segundo_apellido', '')
         correo = request.form['correo']
         fecha_inscripcion = request.form['fecha_inscripcion']
-        carrera = int(request.form['carrera'])  # Convertir a entero
+        carrera_str = request.form['carrera']  # Obtener la carrera como string
+        if carrera_str:
+            carrera = int(carrera_str)  # Convertir a entero solo si hay un valor
+        else:
+            return "Error: Por favor, selecciona una carrera", 400
+        
         foto = request.files['foto']
         documento = request.files['documento_estudiante']  # Cambiado para manejar el archivo PDF
 
