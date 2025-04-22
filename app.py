@@ -159,3 +159,64 @@ def eliminar_estudiante(id_estudiante):
     return redirect(url_for('adm_estudiantes'))
 if __name__ == '__main__':
     app.run(debug=True)
+
+#Para manejar la ruta de detalles del estudiante:
+@app.route('/detalles_estudiantes/<int:id_estudiante>')
+def detalles_estudiantes(id_estudiante):
+    # Obtener los detalles del estudiante desde la base de datos
+    cursor = db.cursor()
+    sql = """
+        SELECT e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, e.fecha_inscripcion, 
+               c.nombre_carrera, f.nombre_facultad, e.foto_estudiante
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+        JOIN facultad f ON c.id_facultad = f.id_facultad
+        WHERE e.id_estudiante = %s
+    """
+    cursor.execute(sql, (id_estudiante,))
+    estudiante = cursor.fetchone()  # Obtener una sola fila
+
+    if not estudiante:
+        return "Estudiante no encontrado", 404
+
+    # Construir la URL completa para la foto del estudiante
+    foto_url = url_for('uploads', filename=estudiante[8]) if estudiante[8] else None
+
+    # Pasar los datos al archivo HTML
+    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url)
+
+# Para mostrar materias correspondientes al estudiante:
+@app.route('/detalles_estudiantes/<int:id_estudiante>')
+def detalles_estudiantes(id_estudiante):
+    # Obtener los detalles del estudiante desde la base de datos
+    cursor = db.cursor()
+    sql_estudiante = """
+        SELECT e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, e.fecha_inscripcion, 
+               c.nombre_carrera, f.nombre_facultad, e.foto_estudiante
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+        JOIN facultad f ON c.id_facultad = f.id_facultad
+        WHERE e.id_estudiante = %s
+    """
+    cursor.execute(sql_estudiante, (id_estudiante,))
+    estudiante = cursor.fetchone()  # Obtener una sola fila
+
+    if not estudiante:
+        return "Estudiante no encontrado", 404
+
+    # Obtener las materias del estudiante
+    sql_materias = """
+        SELECT m.nombre_materia, s.numero_semestre
+        FROM inscripcion_semestre i
+        JOIN materias m ON i.id_semestre = m.id_semestre AND i.id_estudiante = %s
+        JOIN semestre s ON m.id_semestre = s.id_semestre
+        ORDER BY s.numero_semestre
+    """
+    cursor.execute(sql_materias, (id_estudiante,))
+    materias = cursor.fetchall()  # Lista de materias
+
+    # Construir la URL completa para la foto del estudiante
+    foto_url = url_for('uploads', filename=estudiante[8]) if estudiante[8] else None
+
+    # Pasar los datos al archivo HTML
+    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
