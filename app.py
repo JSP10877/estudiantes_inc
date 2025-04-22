@@ -121,6 +121,14 @@ def editar_estudiante(id_estudiante):
         apellido2 = request.form.get('apellido2', '')
         correo = request.form['correo']
         carrera = int(request.form['carrera'])
+        
+        carrera_str = request.form['carrera']
+        if carrera_str:  # Verifica si la cadena no está vacía
+            carrera = int(carrera_str)
+        else:
+            return "Error: Por favor, selecciona una carrera", 400  # Ejemplo de manejo de error
+        
+        
         sql = """
             UPDATE estudiante
             SET nombre1 = %s, nombre2 = %s, apellido1 = %s, apellido2 = %s, correo = %s, id_carrera = %s
