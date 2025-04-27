@@ -31,19 +31,21 @@
         </nav>
     </header>
 
+    <!-- ...existing code... -->
     <div id="barra_de_busqueda">
-        <form action="{{ url_for('adm_estudiantes') }}" method="get">
-            <input type="text" placeholder="Escriba el nombre o carrera del estudiante a consultar" name="buscar" value="{{ request.args.get('buscar', '') }}">
-            <button type="submit">
-                <div class="icono_1">
+        <form method="POST" action="{{ url_for('adm_estudiantes') }}">
+            <input type="text" placeholder="Escriba el nombre o correo del estudiante a consultar" name="search_term" value="{{ search_term }}">
+            <div class="icono_1">
+                <button type="submit" style="background: none; border: none; padding: 0; margin: 0; cursor: pointer;">
                     <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
-                </div>
-            </button>
+                </button>
+            </div>
+            <div class="icono_2">
+                <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
+            </div>
         </form>
-        <div class="icono_2">
-            <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
-        </div>
     </div>
+<!-- ...existing code... -->
 
     <div id="contenedor_estudiantes">
         <!-- Tarjeta de estudiante -->

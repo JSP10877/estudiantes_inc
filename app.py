@@ -162,40 +162,22 @@ if __name__ == '__main__':
 
 
 #ruta para buscar estudiantes
-@app.route('/adm_estudiantes')
+@app.route('/adm_estudiantes', methods=['GET', 'POST'])
 def adm_estudiantes():
-    buscar = request.args.get('buscar', '')  # Tomamos lo que el usuario escribió
+    # Obtener el término de búsqueda desde el formulario
+    search_term = request.form.get('search_term', '').strip()
+
+    # Obtener los datos de los estudiantes desde la base de datos
     cursor = db.cursor()
-    
-    if buscar:
-        sql = """
-            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
-            FROM estudiante e
-            JOIN carrera c ON e.id_carrera = c.id_carrera
-            WHERE CONCAT(e.nombre1, ' ', e.nombre2, ' ', e.apellido1, ' ', e.apellido2) LIKE %s
-               OR c.nombre_carrera LIKE %s
-        """
-        like_pattern = f"%{buscar}%"
-        cursor.execute(sql, (like_pattern, like_pattern))
-    else:
-        sql = """
-            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
-            FROM estudiante e
-            JOIN carrera c ON e.id_carrera = c.id_carrera
-        """
-        cursor.execute(sql)
-
-    estudiantes = cursor.fetchall()
-
-    # Construir la URL completa para las imágenes
-    estudiantes_con_imagen = []
-    for estudiante in estudiantes:
-        estudiante = list(estudiante)
-        estudiante[7] = url_for('uploads', filename=estudiante[7])
-        estudiantes_con_imagen.append(estudiante)
-    
-    return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
-
+    sql = """
+        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+        WHERE e.nombre1 LIKE %s OR e.nombre2 LIKE %s OR e.apellido1 LIKE %s OR e.apellido2 LIKE %s OR e.correo LIKE %s
+    """
+    search_pattern = f"%{search_term}%"
+    cursor.execute(sql, (search_pattern, search_pattern, search_pattern, search_pattern, search_pattern))
+    estudiantes = cursor.fetchall()  # Lista de tuplas con los datos de los estudiantes
 
 
 
