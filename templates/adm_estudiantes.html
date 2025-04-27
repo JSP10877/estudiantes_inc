@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adm.Estudiantes</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adm.Estudiantes</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='estilos/style.css') }}">
+  <!-- Tus estilos -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos/style.css') }}">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
 </head>
 
 <body>
@@ -28,52 +31,53 @@
         </nav>
     </header>
 
-    <div id="barra_de_busqueda" class="container mt-3">
-        <form method="GET" action="{{ url_for('buscarestudiantes') }}">
-            <div class="input-group">
-                <input type="text" class="form-control" id="termino_busqueda" name="termino" placeholder="Escriba el nombre, correo o código del estudiante">
-                <button class="btn btn-outline-secondary" type="submit">
+    <div id="barra_de_busqueda">
+        <form action="{{ url_for('adm_estudiantes') }}" method="get">
+            <input type="text" placeholder="Escriba el nombre o carrera del estudiante a consultar" name="buscar" value="{{ request.args.get('buscar', '') }}">
+            <button type="submit">
+                <div class="icono_1">
                     <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
-                </button>
-                <div class="icono_2 ms-2">
-                    <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
                 </div>
-            </div>
+            </button>
         </form>
+        <div class="icono_2">
+            <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
+        </div>
     </div>
 
-    <div id="contenedor_estudiantes" class="container mt-4">
-        {% if not estudiantes %}
-            <p>No se encontraron estudiantes.</p>
-        {% else %}
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {% for estudiante in estudiantes %}
-                <div class="col">
-                    <div class="card">
-                        <div class="foto_admi_estudiante" style="background-image:url('{{ estudiante[7] }}'); height: 200px; background-size: cover; background-position: center;"></div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ estudiante[1] }} {{ estudiante[2] or '' }} {{ estudiante[3] }} {{ estudiante[4] or '' }}</h5>
-                            <p class="card-text"><small class="text-muted">Correo: {{ estudiante[5] }}</small></p>
-                            <p class="card-text"><small class="text-muted">Carrera: {{ estudiante[6] }} (ID: {{ estudiante[8] }})</small></p>
-                            <div class="botones_principales mt-3">
-                                <div class="action-icons d-flex justify-content-around">
-                                    <a href="{{ url_for('detalles_estudiantes', id_estudiante=estudiante[0]) }}" class="btn btn-sm btn-info">
-                                        <img src="{{ url_for('static', filename='imagenes/detalles_estu.png') }}" alt="Detalles" style="max-width: 24px;"> Detalles
-                                    </a>
-                                    <a href="{{ url_for('editar_estudiante', id_estudiante=estudiante[0]) }}" class="btn btn-sm btn-warning">
-                                        <img src="{{ url_for('static', filename='imagenes/editar.png') }}" alt="Editar" style="max-width: 24px;"> Editar
-                                    </a>
-                                    <a href="{{ url_for('eliminar_estudiante', id_estudiante=estudiante[0]) }}" class="btn btn-sm btn-danger">
-                                        <img src="{{ url_for('static', filename='imagenes/eliminar_estu.png') }}" alt="Deshabilitar" style="max-width: 24px;"> Eliminar
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div id="contenedor_estudiantes">
+        <!-- Tarjeta de estudiante -->
+        {% for estudiante in estudiantes %}
+        <div id="tarjeta_estudiante">
+            <div id="foto_admi_estudiante" style="background-image:url('{{ estudiante[7] }}');"></div> <!--Corregido, eran las comillas de la url-->
+
+            <div id="información_main_estudiante">
+               <div class="info_estudiante">
+                <h3>{{ estudiante[1] }} {{ estudiante[2] }} {{ estudiante[3] }} {{ estudiante[4] }}</h3>
+                <p>{{ estudiante[5] }}</p>
+                <p>{{ estudiante[6] }}</p>
+               </div>
+            </div>  
+
+            <div id="botones_principales">
+                <div class="action-icons">
+                    <!-- Enlace a detalles del estudiante -->
+                    <a href="{{ url_for('detalles_estudiantes', id_estudiante=estudiante[0]) }}">
+                        <img src="{{ url_for('static', filename='imagenes/detalles_estu.png') }}" alt="Detalles del estudiante">
+                    </a>
+                    <!-- Enlace para editar estudiante -->
+                    <a href="{{ url_for('editar_estudiante', id_estudiante=estudiante[0]) }}">
+                        <img src="{{ url_for('static', filename='imagenes/editar.png') }}" alt="Editar">
+                    </a>
+                    <!-- Enlace para eliminar estudiante -->
+                    <a href="{{ url_for('eliminar_estudiante', id_estudiante=estudiante[0]) }}">
+                        <img src="{{ url_for('static', filename='imagenes/eliminar_estu.png') }}" alt="Deshabilitar">
+                    </a>
                 </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+            </div>         
+        </div>
+        {% endfor %}
+
     </div>
 
 </body>

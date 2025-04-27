@@ -160,33 +160,42 @@ def eliminar_estudiante(id_estudiante):
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Nueva ruta para la búsqueda de estudiantes
-@app.route('/buscar_estudiantes', methods=['GET'])
-def buscarestudiantes():
-    termino = request.args.get('termino', '').lower()
+
+#ruta para buscar estudiantes
+@app.route('/adm_estudiantes')
+def adm_estudiantes():
+    buscar = request.args.get('buscar', '')  # Tomamos lo que el usuario escribió
     cursor = db.cursor()
-    sql = """
-        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante, c.id_carrera
-        FROM estudiante e
-        JOIN carrera c ON e.id_carrera = c.id_carrera
-        WHERE LOWER(e.nombre1) LIKE %s OR LOWER(e.nombre2) LIKE %s OR LOWER(e.apellido1) LIKE %s OR LOWER(e.apellido2) LIKE %s OR LOWER(e.correo) LIKE %s OR c.id_carrera LIKE %s
-    """
-    like_termino = f"%{termino}%"
-    cursor.execute(sql, (like_termino, like_termino, like_termino, like_termino, like_termino, like_termino))
-    resultados = cursor.fetchall()
-
-    resultados_con_imagen = []
-    for resultado in resultados:
-        resultado_lista = list(resultado)
-        if resultado_lista[7]:
-            resultado_lista[7] = url_for('uploads', filename=resultado_lista[7])
-        else:
-            resultado_lista[7] = url_for('static', filename='imagenes/default_user.png') # O una imagen por defecto si no hay foto
-        resultados_con_imagen.append(resultado_lista)
-
-    return render_template('adm_estudiantes.html', estudiantes=resultados_con_imagen)
-
     
+    if buscar:
+        sql = """
+            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
+            FROM estudiante e
+            JOIN carrera c ON e.id_carrera = c.id_carrera
+            WHERE CONCAT(e.nombre1, ' ', e.nombre2, ' ', e.apellido1, ' ', e.apellido2) LIKE %s
+               OR c.nombre_carrera LIKE %s
+        """
+        like_pattern = f"%{buscar}%"
+        cursor.execute(sql, (like_pattern, like_pattern))
+    else:
+        sql = """
+            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
+            FROM estudiante e
+            JOIN carrera c ON e.id_carrera = c.id_carrera
+        """
+        cursor.execute(sql)
+
+    estudiantes = cursor.fetchall()
+
+    # Construir la URL completa para las imágenes
+    estudiantes_con_imagen = []
+    for estudiante in estudiantes:
+        estudiante = list(estudiante)
+        estudiante[7] = url_for('uploads', filename=estudiante[7])
+        estudiantes_con_imagen.append(estudiante)
+    
+    return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
+
 
 
 
