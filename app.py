@@ -160,6 +160,37 @@ def eliminar_estudiante(id_estudiante):
 if __name__ == '__main__':
     app.run(debug=True)
 
+# Nueva ruta para la búsqueda de estudiantes
+@app.route('/buscar_estudiantes')
+def buscar_estudiantes():
+    termino = request.args.get('termino', '').lower()
+    cursor = db.cursor()
+    sql = """
+        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante, c.id_carrera
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+        WHERE LOWER(e.nombre1) LIKE %s OR LOWER(e.nombre2) LIKE %s OR LOWER(e.apellido1) LIKE %s OR LOWER(e.apellido2) LIKE %s OR LOWER(e.correo) LIKE %s OR c.id_carrera LIKE %s
+    """
+    like_termino = f"%{termino}%"
+    cursor.execute(sql, (like_termino, like_termino, like_termino, like_termino, like_termino, like_termino))
+    resultados = cursor.fetchall()
+
+    resultados_con_imagen = []
+    for resultado in resultados:
+        resultado_lista = list(resultado)
+        if resultado_lista[7]:
+            resultado_lista[7] = url_for('uploads', filename=resultado_lista[7])
+        else:
+            resultado_lista[7] = url_for('static', filename='imagenes/default_user.png') # O una imagen por defecto si no hay foto
+        resultados_con_imagen.append(resultado_lista)
+
+    return render_template('adm_estudiantes.html', estudiantes=resultados_con_imagen)
+
+    
+
+
+
+
 #Para manejar la ruta de detalles del estudiante:
 @app.route('/detalles_estudiantes/<int:id_estudiante>')
 def detalles_estudiantes(id_estudiante):
