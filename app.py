@@ -161,8 +161,8 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 # Nueva ruta para la búsqueda de estudiantes
-@app.route('/buscar_estudiantes')
-def buscar_estudiantes():
+@app.route('/buscar_estudiantes', methods=['GET'])
+def buscarestudiantes():
     termino = request.args.get('termino', '').lower()
     cursor = db.cursor()
     sql = """
