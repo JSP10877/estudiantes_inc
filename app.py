@@ -13,11 +13,14 @@ db = pymysql.connect(
     database="estudiantes_regi"  # Nombre de la base de datos
 )
 
+
+
 #----------------------------------------------------------------------------
 # Configuración para subir archivos
 app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), 'uploads')
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
+
 
 
 #----------------------------------------------------------------------------
@@ -27,11 +30,13 @@ def uploads(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
+
 #----------------------------------------------------------------------------
 # Ruta para la página de inicio
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 
 #----------------------------------------------------------------------------
@@ -84,6 +89,7 @@ def registro_estudiantes():
     return render_template('registro_estudiantes.html', carreras=carreras)
 
 
+
 #----------------------------------------------------------------------------
 # Ruta para la página de administración de estudiantes
 @app.route('/adm_estudiantes', methods=['GET', 'POST'])
@@ -127,6 +133,7 @@ def detalles_estudiantes(id_estudiante):
     cursor.execute(sql, (id_estudiante,))
     estudiante = cursor.fetchone()  # Obtener una sola fila
     return render_template('detalles_estudiantes.html',  estudiante=estudiante)
+
 
 
 #----------------------------------------------------------------------------
@@ -179,7 +186,9 @@ def editar_estudiante(id_estudiante):
         carreras = cursor.fetchall()
         
         return render_template('editar_estudiante.html', estudiante=estudiante, carreras=carreras)
-    
+
+
+
 #----------------------------------------------------------------------------
 # Ruta para eliminar estudiante
 @app.route('/eliminar_estudiante/<int:id_estudiante>')
@@ -191,6 +200,7 @@ def eliminar_estudiante(id_estudiante):
     return redirect(url_for('adm_estudiantes'))
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 #----------------------------------------------------------------------------
@@ -209,6 +219,8 @@ def buscador(): #FUNCION QUE CONECTA CON EL FORMULARIO
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 
 #----------------------------------------------------------------------------
 # Para mostrar materias correspondientes al estudiante:
