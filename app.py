@@ -166,6 +166,22 @@ if __name__ == '__main__':
 
 
 #ruta para buscar estudiantes
+@app.route('/buscar_estudiantes', methods=['POST'])
+def buscador(): #FUNCION QUE CONECTA CON EL FORMULARIO
+    search_term = request.form['consulta']
+    
+    cursor = db.cursor()
+    sql = "SELECT * FROM estudiante WHERE (nombre1 LIKE %s OR nombre2 LIKE %s OR apellido1 LIKE %s OR apellido2 LIKE %s OR correo LIKE %s )"
+    val = (f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%")
+    cursor.execute(sql, val)
+    estudiantes = cursor.fetchall()  # OBTNENER LAS FILAS QUE CUMPLEN CON LA BUSQUEDA
+    return render_template('adm_estudiantes.html', estudiantes=estudiantes, search_term=search_term) #RENDERIZAR LA PAGINA CON LOS RESULTADOS DE LA BUSQUEDA
+    
+
+if __name__ == '__main__':
+    app.run(debug=True)
+        
+    
 
 
 
