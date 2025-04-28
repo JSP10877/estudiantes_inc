@@ -31,17 +31,24 @@
         </nav>
     </header>
 
+    <!-- ...existing code... -->
     <div id="barra_de_busqueda">
-        <input type="text" placeholder="Escriba el nombre o correo del estudiante a consultar">
-        <div class="icono_1">
-            <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
-        </div>
-        <div class="icono_2">
-            <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
-        </div>
+        <form method="POST" action="{{ url_for('buscar_estudiantes') }}">
+            <input type="text" placeholder="Escriba el nombre o correo del estudiante a consultar" name="consulta" value="{{ search_term }}">
+            <div class="icono_1">
+                <button type="submit" ">
+                    <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
+                </button>
+            </div>
+            <div class="icono_2">
+                <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
+            </div>
+        </form>
     </div>
-
+<!-- ...existing code... -->
+    
     <div id="contenedor_estudiantes">
+    {% block body %}    
         <!-- Tarjeta de estudiante -->
         {% for estudiante in estudiantes %}
         <div id="tarjeta_estudiante">
@@ -73,7 +80,7 @@
             </div>         
         </div>
         {% endfor %}
-
+    { % endblock %}
     </div>
 
 </body>

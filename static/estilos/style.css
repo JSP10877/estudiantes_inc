@@ -238,8 +238,7 @@ form button {
 
 /* Contenedor principal de estudiantes */
 #contenedor_estudiantes {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 15px;
     justify-content: center;
     padding: 20px;
