@@ -93,6 +93,7 @@ def registro_estudiantes():
 #----------------------------------------------------------------------------
 # Ruta para la página de administración de estudiantes
 @app.route('/adm_estudiantes')
+@app.route('/adm_estudiantes')
 def adm_estudiantes():
     query = request.args.get('query', '').strip()
     cursor = db.cursor()
@@ -131,43 +132,48 @@ def adm_estudiantes():
 
     return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
 
+
+
+#----------------------------------------------------------------------------
+# Ruta para la página de detalles de estudiantes
+@app.route('/detalles_estudiantes/<int:id_estudiante>')
+def detalles_estudiantes(id_estudiante):
+    # Obtener los detalles del estudiante desde la base de datos
+    cursor = db.cursor()
+    sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
+    cursor.execute(sql, (id_estudiante,))
+    estudiante = cursor.fetchone()  # Obtener una sola fila
+    return render_template('detalles_estudiantes.html',  estudiante=estudiante)
+
+
+
 #----------------------------------------------------------------------------
 # Ruta para editar estudiante
 @app.route('/editar_estudiante/<int:id_estudiante>', methods=['GET', 'POST'])
 def editar_estudiante(id_estudiante):
     cursor = db.cursor()
     if request.method == 'POST':
-        # Obtener datos del formulario
-        primer_nombre = request.form['primer_nombre']
-        segundo_nombre = request.form.get('segundo_nombre', '')
-        primer_apellido = request.form['primer_apellido']
-        segundo_apellido = request.form.get('segundo_apellido', '')
+        # Actualizar datos del estudiante
+        nombre1 = request.form['nombre1']
+        nombre2 = request.form.get('nombre2', '')
+        apellido1 = request.form['apellido1']
+        apellido2 = request.form.get('apellido2', '')
         correo = request.form['correo']
+        carrera = int(request.form['carrera'])
         
-        # Manejar archivos (opcional)
-        foto = request.files.get('foto')
-        documento = request.files.get('documento_estudiante')
+        carrera_str = request.form['carrera']
+        if carrera_str:  # Verifica si la cadena no está vacía
+            carrera = int(carrera_str)
+        else:
+            return "Error: Por favor, selecciona una carrera", 400  # Ejemplo de manejo de error
         
-        # Actualizar datos en la base de datos
+        
         sql = """
             UPDATE estudiante
-            SET nombre1 = %s, nombre2 = %s, apellido1 = %s, apellido2 = %s, correo = %s
+            SET nombre1 = %s, nombre2 = %s, apellido1 = %s, apellido2 = %s, correo = %s, id_carrera = %s
             WHERE id_estudiante = %s
         """
-        cursor.execute(sql, (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, correo, id_estudiante))
-        
-        # Actualizar foto si se subió
-        if foto and foto.filename:
-            foto_path = os.path.join(app.config['UPLOAD_FOLDER'], foto.filename)
-            foto.save(foto_path)
-            cursor.execute("UPDATE estudiante SET foto_estudiante = %s WHERE id_estudiante = %s", (foto.filename, id_estudiante))
-        
-        # Actualizar documento si se subió
-        if documento and documento.filename:
-            documento_path = os.path.join(app.config['UPLOAD_FOLDER'], documento.filename)
-            documento.save(documento_path)
-            cursor.execute("UPDATE estudiante SET documento_estudiante = %s WHERE id_estudiante = %s", (documento.filename, id_estudiante))
-        
+        cursor.execute(sql, (nombre1, nombre2, apellido1, apellido2, correo, carrera, id_estudiante))
         db.commit()
         return redirect(url_for('adm_estudiantes'))
     else:
@@ -175,13 +181,7 @@ def editar_estudiante(id_estudiante):
         sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
         cursor.execute(sql, (id_estudiante,))
         estudiante = cursor.fetchone()
-        
-        # Obtener las carreras para mostrar en el formulario
-        cursor.execute("SELECT id_carrera, nombre_carrera FROM carrera")
-        carreras = cursor.fetchall()
-        
-        return render_template('editar_estudiante.html', estudiante=estudiante, carreras=carreras)
-
+        return render_template('editar_estudiante.html', estudiante=estudiante)
 
 
 #----------------------------------------------------------------------------
@@ -197,36 +197,4 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-
 #----------------------------------------------------------------------------
-# Para mostrar materias correspondientes al estudiante:
-@app.route('/detalles_estudiantes/<int:id_estudiante>')
-def detalles_estudiantes(id_estudiante):
-    cursor = db.cursor()
-
-    # Consulta para obtener los detalles del estudiante
-    sql = """
-        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
-        FROM estudiante e
-        JOIN carrera c ON e.id_carrera = c.id_carrera
-        WHERE e.id_estudiante = %s
-    """
-    cursor.execute(sql, (id_estudiante,))
-    estudiante = cursor.fetchone()
-
-    if not estudiante:
-        return "Estudiante no encontrado", 404
-
-    # Convertir el resultado en un diccionario para facilitar el acceso en la plantilla
-    estudiante_detalles = {
-        "id_estudiante": estudiante[0],
-        "nombre1": estudiante[1],
-        "nombre2": estudiante[2],
-        "apellido1": estudiante[3],
-        "apellido2": estudiante[4],
-        "correo": estudiante[5],
-        "nombre_carrera": estudiante[6],
-        "foto_estudiante": url_for('uploads', filename=estudiante[7]) if estudiante[7] else None
-    }
-
-    return render_template('detalles_estudiantes.html', estudiante=estudiante_detalles)
