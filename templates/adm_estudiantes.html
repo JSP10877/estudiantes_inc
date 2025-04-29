@@ -32,13 +32,15 @@
     </header>
 
     <div id="barra_de_busqueda">
-        <input type="text" placeholder="Escriba el nombre o correo del estudiante a consultar">
-        <div class="icono_1">
-            <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
-        </div>
-        <div class="icono_2">
-            <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
-        </div>
+        <form method="GET" action="{{ url_for('adm_estudiantes') }}">
+            <input type="text" name="query" placeholder="Escriba el nombre o correo del estudiante a consultar">
+            <button type="submit" class="icono_1">
+                <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
+            </button>
+            <div class="icono_2">
+                <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de busqueda">
+            </div>
+        </form>
     </div>
 
     <div id="contenedor_estudiantes">
@@ -57,7 +59,7 @@
 
             <div id="botones_principales">
                 <div class="action-icons">
-                    <!-- Enlace a detalles del estudiante -->
+                    <!-- Enlace para detalles estudiante -->
                     <a href="{{ url_for('detalles_estudiantes', id_estudiante=estudiante[0]) }}">
                         <img src="{{ url_for('static', filename='imagenes/detalles_estu.png') }}" alt="Detalles del estudiante">
                     </a>

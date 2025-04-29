@@ -94,45 +94,38 @@ def registro_estudiantes():
 # Ruta para la página de administración de estudiantes
 @app.route('/adm_estudiantes')
 def adm_estudiantes():
-     # Obtener los datos de los estudiantes desde la base de datos
+    query = request.args.get('query', '').strip()  # Obtener el parámetro de búsqueda
     cursor = db.cursor()
-    sql = """
-        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
-        FROM estudiante e
-        JOIN carrera c ON e.id_carrera = c.id_carrera
-    """
-    cursor.execute(sql)
-    estudiantes = cursor.fetchall()  # Lista de tuplas con los datos de los estudiantes
-    
+
+    if query:
+        # Consulta para buscar por nombre o correo
+        sql = """
+            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
+            FROM estudiante e
+            JOIN carrera c ON e.id_carrera = c.id_carrera
+            WHERE e.nombre1 LIKE %s OR e.nombre2 LIKE %s OR e.apellido1 LIKE %s OR e.apellido2 LIKE %s OR e.correo LIKE %s
+        """
+        like_query = f"%{query}%"  # Usar comodines para búsqueda parcial
+        cursor.execute(sql, (like_query, like_query, like_query, like_query, like_query))
+    else:
+        # Consulta para obtener todos los estudiantes
+        sql = """
+            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
+            FROM estudiante e
+            JOIN carrera c ON e.id_carrera = c.id_carrera
+        """
+        cursor.execute(sql)
+
+    estudiantes = cursor.fetchall()
+
     # Construir la URL completa para las imágenes
     estudiantes_con_imagen = []
     for estudiante in estudiantes:
         estudiante = list(estudiante)
         estudiante[7] = url_for('uploads', filename=estudiante[7])  # Ruta completa de la imagen
         estudiantes_con_imagen.append(estudiante)
-    # Pasar los datos al archivo HTML
+
     return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
-
-
-
-#----------------------------------------------------------------------------
-@app.route('/buscar_estudiantes', methods=['POST'])
-def buscar_estudiantes():
-    search_term = request.form['consulta']  # Obtener el término de búsqueda del formulario
-    cursor = db.cursor()
-    sql = """
-        SELECT id_estudiante, nombre1, nombre2, apellido1, apellido2, correo, id_carrera, foto_estudiante
-        FROM estudiante
-        WHERE nombre1 LIKE %s OR nombre2 LIKE %s OR apellido1 LIKE %s OR apellido2 LIKE %s OR correo LIKE %s
-    """
-    val = (f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%")
-    cursor.execute(sql, val)
-    estudiantes = cursor.fetchall()  # Obtener los resultados de la consulta
-
-    # Pasar los resultados al archivo HTML
-    return render_template('adm_estudiantes.html', estudiantes=estudiantes, search_term=search_term)
-    
-
 
 #----------------------------------------------------------------------------
 # Ruta para editar estudiante
@@ -205,8 +198,9 @@ if __name__ == '__main__':
 # Para mostrar materias correspondientes al estudiante:
 @app.route('/detalles_estudiantes/<int:id_estudiante>')
 def detalles_estudiantes(id_estudiante):
-    # Obtener los detalles del estudiante desde la base de datos
     cursor = db.cursor()
+
+    # Obtener los datos del estudiante
     sql_estudiante = """
         SELECT e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, e.fecha_inscripcion, 
                c.nombre_carrera, f.nombre_facultad, e.foto_estudiante
@@ -216,7 +210,7 @@ def detalles_estudiantes(id_estudiante):
         WHERE e.id_estudiante = %s
     """
     cursor.execute(sql_estudiante, (id_estudiante,))
-    estudiante = cursor.fetchone()  # Obtener una sola fila
+    estudiante = cursor.fetchone()
 
     if not estudiante:
         return "Estudiante no encontrado", 404
@@ -230,24 +224,15 @@ def detalles_estudiantes(id_estudiante):
         ORDER BY s.numero_semestre
     """
     cursor.execute(sql_materias, (id_estudiante,))
-    materias = cursor.fetchall()  # Lista de materias
+    materias = cursor.fetchall()
 
-    # Construir la URL completa para la foto del estudiante
-    foto_url = url_for('uploads', filename=estudiante[8]) if estudiante[8] else None
+    # Manejar la URL de la foto del estudiante
+    foto_url = None
+    if estudiante[8]:  # Verificar si hay una foto antes de construir la URL
+        foto_url = url_for('uploads', filename=estudiante[8])
 
-    # Pasar los datos al archivo HTML
+    # Depuración
+    print(f"Estudiante: {estudiante}")
+    print(f"Materias: {materias}")
+
     return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
-
-
-
-#----------------------------------------------------------------------------
-# Ruta para la página de detalles de estudiantes
-@app.route('/detalles_estudiantes/<int:id_estudiante>')
-def detalles_estudiantes(id_estudiante):
-    # Obtener los detalles del estudiante desde la base de datos
-    cursor = db.cursor()
-    sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
-    cursor.execute(sql, (id_estudiante,))
-    estudiante = cursor.fetchone()  # Obtener una sola fila
-    return render_template('detalles_estudiantes.html',  estudiante=estudiante)
-
