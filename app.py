@@ -92,35 +92,26 @@ def registro_estudiantes():
 
 #----------------------------------------------------------------------------
 # Ruta para la página de administración de estudiantes
-@app.route('/adm_estudiantes', methods=['GET', 'POST'])
+@app.route('/adm_estudiantes')
 def adm_estudiantes():
-    search_term = ''
-    estudiantes = []
-
-    if request.method == 'POST':
-        search_term = request.form.get('search_term')
-        
-        conn = pymysql.connect('estudiantes_regi.db')
-        cursor = conn.cursor()
-
-        query = """
-            SELECT * FROM estudiantes
-            WHERE nombre LIKE ? OR correo LIKE ?
-        """
-        like_term = f"%{search_term}%"
-        cursor.execute(query, (like_term, like_term))
-        estudiantes = cursor.fetchall()
-
-        conn.close()
-    else:
-        conn = pymysql.connect('estudiantes_regi.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM estudiantes")
-        estudiantes = cursor.fetchall()
-        conn.close()
-
-    return render_template('adm_estudiantes.html', estudiantes=estudiantes, search_term=search_term)
+     # Obtener los datos de los estudiantes desde la base de datos
+    cursor = db.cursor()
+    sql = """
+        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+    """
+    cursor.execute(sql)
+    estudiantes = cursor.fetchall()  # Lista de tuplas con los datos de los estudiantes
     
+    # Construir la URL completa para las imágenes
+    estudiantes_con_imagen = []
+    for estudiante in estudiantes:
+        estudiante = list(estudiante)
+        estudiante[7] = url_for('uploads', filename=estudiante[7])  # Ruta completa de la imagen
+        estudiantes_con_imagen.append(estudiante)
+    # Pasar los datos al archivo HTML
+    return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
     
     
 #----------------------------------------------------------------------------
