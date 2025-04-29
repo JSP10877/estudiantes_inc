@@ -112,19 +112,26 @@ def adm_estudiantes():
         estudiantes_con_imagen.append(estudiante)
     # Pasar los datos al archivo HTML
     return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
-    
-    
-#----------------------------------------------------------------------------
-# Ruta para la página de detalles de estudiantes
-@app.route('/detalles_estudiantes/<int:id_estudiante>')
-def detalles_estudiantes(id_estudiante):
-    # Obtener los detalles del estudiante desde la base de datos
-    cursor = db.cursor()
-    sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
-    cursor.execute(sql, (id_estudiante,))
-    estudiante = cursor.fetchone()  # Obtener una sola fila
-    return render_template('detalles_estudiantes.html',  estudiante=estudiante)
 
+
+
+#----------------------------------------------------------------------------
+@app.route('/buscar_estudiantes', methods=['POST'])
+def buscar_estudiantes():
+    search_term = request.form['consulta']  # Obtener el término de búsqueda del formulario
+    cursor = db.cursor()
+    sql = """
+        SELECT id_estudiante, nombre1, nombre2, apellido1, apellido2, correo, id_carrera, foto_estudiante
+        FROM estudiante
+        WHERE nombre1 LIKE %s OR nombre2 LIKE %s OR apellido1 LIKE %s OR apellido2 LIKE %s OR correo LIKE %s
+    """
+    val = (f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%")
+    cursor.execute(sql, val)
+    estudiantes = cursor.fetchall()  # Obtener los resultados de la consulta
+
+    # Pasar los resultados al archivo HTML
+    return render_template('adm_estudiantes.html', estudiantes=estudiantes, search_term=search_term)
+    
 
 
 #----------------------------------------------------------------------------
@@ -195,25 +202,6 @@ if __name__ == '__main__':
 
 
 #----------------------------------------------------------------------------
-#ruta para buscar estudiantes
-@app.route('/buscar_estudiantes', methods=['POST'])
-def buscador(): #FUNCION QUE CONECTA CON EL FORMULARIO
-    search_term = request.form['consulta']
-    
-    cursor = db.cursor()
-    sql = "SELECT * FROM estudiante WHERE (nombre1 LIKE %s OR nombre2 LIKE %s OR apellido1 LIKE %s OR apellido2 LIKE %s OR correo LIKE %s )"
-    val = (f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%")
-    cursor.execute(sql, val)
-    estudiantes = cursor.fetchall()  # OBTNENER LAS FILAS QUE CUMPLEN CON LA BUSQUEDA
-    return render_template('adm_estudiantes.html', estudiantes=estudiantes, search_term=search_term) #RENDERIZAR LA PAGINA CON LOS RESULTADOS DE LA BUSQUEDA
-    
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-#----------------------------------------------------------------------------
 # Para mostrar materias correspondientes al estudiante:
 @app.route('/detalles_estudiantes/<int:id_estudiante>')
 def detalles_estudiantes(id_estudiante):
@@ -249,3 +237,17 @@ def detalles_estudiantes(id_estudiante):
 
     # Pasar los datos al archivo HTML
     return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
+
+
+
+#----------------------------------------------------------------------------
+# Ruta para la página de detalles de estudiantes
+@app.route('/detalles_estudiantes/<int:id_estudiante>')
+def detalles_estudiantes(id_estudiante):
+    # Obtener los detalles del estudiante desde la base de datos
+    cursor = db.cursor()
+    sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
+    cursor.execute(sql, (id_estudiante,))
+    estudiante = cursor.fetchone()  # Obtener una sola fila
+    return render_template('detalles_estudiantes.html',  estudiante=estudiante)
+
