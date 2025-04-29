@@ -33,7 +33,7 @@
 
     <div id="barra_de_busqueda">
         <form method="GET" action="{{ url_for('adm_estudiantes') }}">
-            <input type="text" name="query" placeholder="Escriba el nombre o correo del estudiante a consultar">
+            <input type="text" name="query" placeholder="Escriba el nombre o correo del estudiante">
             <button type="submit" class="icono_1">
                 <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
             </button>
