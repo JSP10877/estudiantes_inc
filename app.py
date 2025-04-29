@@ -94,21 +94,19 @@ def registro_estudiantes():
 # Ruta para la página de administración de estudiantes
 @app.route('/adm_estudiantes')
 def adm_estudiantes():
-    query = request.args.get('query', '').strip()  # Obtener el parámetro de búsqueda
+    query = request.args.get('query', '').strip()
     cursor = db.cursor()
 
     if query:
-        # Consulta para buscar por nombre o correo
         sql = """
             SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
             FROM estudiante e
             JOIN carrera c ON e.id_carrera = c.id_carrera
             WHERE e.nombre1 LIKE %s OR e.nombre2 LIKE %s OR e.apellido1 LIKE %s OR e.apellido2 LIKE %s OR e.correo LIKE %s
         """
-        like_query = f"%{query}%"  # Usar comodines para búsqueda parcial
+        like_query = f"%{query}%"
         cursor.execute(sql, (like_query, like_query, like_query, like_query, like_query))
     else:
-        # Consulta para obtener todos los estudiantes
         sql = """
             SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
             FROM estudiante e
@@ -118,12 +116,18 @@ def adm_estudiantes():
 
     estudiantes = cursor.fetchall()
 
-    # Construir la URL completa para las imágenes
+    # Depuración: imprime los datos obtenidos
+    print("Estudiantes obtenidos de la base de datos:", estudiantes)
+
     estudiantes_con_imagen = []
     for estudiante in estudiantes:
         estudiante = list(estudiante)
-        estudiante[7] = url_for('uploads', filename=estudiante[7])  # Ruta completa de la imagen
+        if estudiante[7]:  # Verificar si hay una imagen antes de construir la URL
+            estudiante[7] = url_for('uploads', filename=estudiante[7])
         estudiantes_con_imagen.append(estudiante)
+
+    # Depuración: imprime los datos procesados
+    print("Estudiantes con imagen procesados:", estudiantes_con_imagen)
 
     return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
 
@@ -200,39 +204,29 @@ if __name__ == '__main__':
 def detalles_estudiantes(id_estudiante):
     cursor = db.cursor()
 
-    # Obtener los datos del estudiante
-    sql_estudiante = """
-        SELECT e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, e.fecha_inscripcion, 
-               c.nombre_carrera, f.nombre_facultad, e.foto_estudiante
+    # Consulta para obtener los detalles del estudiante
+    sql = """
+        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
         FROM estudiante e
         JOIN carrera c ON e.id_carrera = c.id_carrera
-        JOIN facultad f ON c.id_facultad = f.id_facultad
         WHERE e.id_estudiante = %s
     """
-    cursor.execute(sql_estudiante, (id_estudiante,))
+    cursor.execute(sql, (id_estudiante,))
     estudiante = cursor.fetchone()
 
     if not estudiante:
         return "Estudiante no encontrado", 404
 
-    # Obtener las materias del estudiante
-    sql_materias = """
-        SELECT m.nombre_materia, s.numero_semestre
-        FROM inscripcion_semestre i
-        JOIN materias m ON i.id_semestre = m.id_semestre AND i.id_estudiante = %s
-        JOIN semestre s ON m.id_semestre = s.id_semestre
-        ORDER BY s.numero_semestre
-    """
-    cursor.execute(sql_materias, (id_estudiante,))
-    materias = cursor.fetchall()
+    # Convertir el resultado en un diccionario para facilitar el acceso en la plantilla
+    estudiante_detalles = {
+        "id_estudiante": estudiante[0],
+        "nombre1": estudiante[1],
+        "nombre2": estudiante[2],
+        "apellido1": estudiante[3],
+        "apellido2": estudiante[4],
+        "correo": estudiante[5],
+        "nombre_carrera": estudiante[6],
+        "foto_estudiante": url_for('uploads', filename=estudiante[7]) if estudiante[7] else None
+    }
 
-    # Manejar la URL de la foto del estudiante
-    foto_url = None
-    if estudiante[8]:  # Verificar si hay una foto antes de construir la URL
-        foto_url = url_for('uploads', filename=estudiante[8])
-
-    # Depuración
-    print(f"Estudiante: {estudiante}")
-    print(f"Materias: {materias}")
-
-    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
+    return render_template('detalles_estudiantes.html', estudiante=estudiante_detalles)

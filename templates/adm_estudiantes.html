@@ -60,9 +60,7 @@
             <div id="botones_principales">
                 <div class="action-icons">
                     <!-- Enlace para detalles estudiante -->
-                    <a href="{{ url_for('detalles_estudiantes', id_estudiante=estudiante[0]) }}">
-                        <img src="{{ url_for('static', filename='imagenes/detalles_estu.png') }}" alt="Detalles del estudiante">
-                    </a>
+                    
                     <!-- Enlace para editar estudiante -->
                     <a href="{{ url_for('editar_estudiante', id_estudiante=estudiante[0]) }}">
                         <img src="{{ url_for('static', filename='imagenes/editar.png') }}" alt="Editar">
