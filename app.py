@@ -93,7 +93,6 @@ def registro_estudiantes():
 #----------------------------------------------------------------------------
 # Ruta para la página de administración de estudiantes
 @app.route('/adm_estudiantes')
-@app.route('/adm_estudiantes')
 def adm_estudiantes():
     query = request.args.get('query', '').strip()
     cursor = db.cursor()
@@ -123,8 +122,10 @@ def adm_estudiantes():
     estudiantes_con_imagen = []
     for estudiante in estudiantes:
         estudiante = list(estudiante)
-        if estudiante[7]:  # Verificar si hay una imagen antes de construir la URL
+        if estudiante[7]:  # Si hay una imagen, genera la URL
             estudiante[7] = url_for('uploads', filename=estudiante[7])
+        else:  # Si no hay imagen, asigna la imagen predeterminada
+            estudiante[7] = url_for('static', filename='imagenes/default.jpg')
         estudiantes_con_imagen.append(estudiante)
 
     # Depuración: imprime los datos procesados

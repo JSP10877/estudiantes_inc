@@ -47,8 +47,10 @@
         <!-- Tarjeta de estudiante -->
         {% for estudiante in estudiantes %}
         <div id="tarjeta_estudiante">
-            <div id="foto_admi_estudiante" style="background-image:url('{{ estudiante[7] }}');"></div> <!--Corregido, eran las comillas de la url-->
-
+            <div id="foto_admi_estudiante" 
+                style="background-image: url('{{ estudiante[7] }}');">
+            </div>
+            
             <div id="información_main_estudiante">
                <div class="info_estudiante">
                 <h3>{{ estudiante[1] }} {{ estudiante[2] }} {{ estudiante[3] }} {{ estudiante[4] }}</h3>
