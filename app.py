@@ -154,27 +154,37 @@ def detalles_estudiantes(id_estudiante):
 def editar_estudiante(id_estudiante):
     cursor = db.cursor()
     if request.method == 'POST':
-        # Actualizar datos del estudiante
-        nombre1 = request.form['nombre1']
-        nombre2 = request.form.get('nombre2', '')
-        apellido1 = request.form['apellido1']
-        apellido2 = request.form.get('apellido2', '')
+        # Obtener datos del formulario
+        primer_nombre = request.form['primer_nombre']
+        segundo_nombre = request.form.get('segundo_nombre', '')
+        primer_apellido = request.form['primer_apellido']
+        segundo_apellido = request.form.get('segundo_apellido', '')
         correo = request.form['correo']
-        carrera = int(request.form['carrera'])
         
-        carrera_str = request.form['carrera']
-        if carrera_str:  # Verifica si la cadena no está vacía
-            carrera = int(carrera_str)
-        else:
-            return "Error: Por favor, selecciona una carrera", 400  # Ejemplo de manejo de error
+        # Manejar archivos (opcional)
+        foto = request.files.get('foto')
+        documento = request.files.get('documento_estudiante')
         
-        
+        # Actualizar datos en la base de datos
         sql = """
             UPDATE estudiante
-            SET nombre1 = %s, nombre2 = %s, apellido1 = %s, apellido2 = %s, correo = %s, id_carrera = %s
+            SET nombre1 = %s, nombre2 = %s, apellido1 = %s, apellido2 = %s, correo = %s
             WHERE id_estudiante = %s
         """
-        cursor.execute(sql, (nombre1, nombre2, apellido1, apellido2, correo, carrera, id_estudiante))
+        cursor.execute(sql, (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, correo, id_estudiante))
+        
+        # Actualizar foto si se subió
+        if foto and foto.filename:
+            foto_path = os.path.join(app.config['UPLOAD_FOLDER'], foto.filename)
+            foto.save(foto_path)
+            cursor.execute("UPDATE estudiante SET foto_estudiante = %s WHERE id_estudiante = %s", (foto.filename, id_estudiante))
+        
+        # Actualizar documento si se subió
+        if documento and documento.filename:
+            documento_path = os.path.join(app.config['UPLOAD_FOLDER'], documento.filename)
+            documento.save(documento_path)
+            cursor.execute("UPDATE estudiante SET documento_estudiante = %s WHERE id_estudiante = %s", (documento.filename, id_estudiante))
+        
         db.commit()
         return redirect(url_for('adm_estudiantes'))
     else:
@@ -182,7 +192,13 @@ def editar_estudiante(id_estudiante):
         sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
         cursor.execute(sql, (id_estudiante,))
         estudiante = cursor.fetchone()
-        return render_template('editar_estudiante.html', estudiante=estudiante)
+        
+        # Obtener las carreras para mostrar en el formulario
+        cursor.execute("SELECT id_carrera, nombre_carrera FROM carrera")
+        carreras = cursor.fetchall()
+        
+        return render_template('editar_estudiante.html', estudiante=estudiante, carreras=carreras)
+
 
 
 #----------------------------------------------------------------------------
