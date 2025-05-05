@@ -60,6 +60,12 @@
     <div id="semestres">
         <section class="container mt-4" style="margin-bottom: 2%;">
             <h2 class="text-center">Materias por semestre</h2>
+            
+            <!-- Bloque de depuración -->
+        <pre>
+            {{ materias }}
+        </pre>
+
             <div class="accordion" id="accordionSemestres">
                 {% for semestre, materias_semestre in materias|groupby(1) %}
                 <div class="accordion-item">

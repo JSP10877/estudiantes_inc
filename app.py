@@ -139,13 +139,38 @@ def adm_estudiantes():
 # Ruta para la página de detalles de estudiantes
 @app.route('/detalles_estudiantes/<int:id_estudiante>')
 def detalles_estudiantes(id_estudiante):
-    # Obtener los detalles del estudiante desde la base de datos
     cursor = db.cursor()
-    sql = "SELECT * FROM estudiante WHERE id_estudiante = %s"
-    cursor.execute(sql, (id_estudiante,))
-    estudiante = cursor.fetchone()  # Obtener una sola fila
-    return render_template('detalles_estudiantes.html',  estudiante=estudiante)
 
+    # Consulta para obtener los detalles del estudiante
+    sql_estudiante = """
+        SELECT e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, e.fecha_inscripcion, 
+               c.nombre_carrera, f.nombre_facultad, e.foto_estudiante
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+        JOIN facultad f ON c.id_facultad = f.id_facultad
+        WHERE e.id_estudiante = %s
+    """
+    cursor.execute(sql_estudiante, (id_estudiante,))
+    estudiante = cursor.fetchone()
+
+    # Consulta para obtener las materias por semestre
+    sql_materias = """
+        SELECT m.nombre_materia, m.semestre
+        FROM materias m
+        JOIN estudiante_materia em ON m.id_materia = em.id_materia
+        WHERE em.id_estudiante = %s
+        ORDER BY m.semestre
+    """
+    cursor.execute(sql_materias, (id_estudiante,))
+    materias = cursor.fetchall()
+
+    # Depuración: imprime las materias obtenidas
+    print("Materias obtenidas:", materias)
+
+    # Generar la URL de la foto
+    foto_url = url_for('uploads', filename=estudiante[8]) if estudiante[8] else url_for('static', filename='imagenes/default.jpg')
+
+    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
 
 
 #----------------------------------------------------------------------------
