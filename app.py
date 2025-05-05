@@ -151,26 +151,12 @@ def detalles_estudiantes(id_estudiante):
         WHERE e.id_estudiante = %s
     """
     cursor.execute(sql_estudiante, (id_estudiante,))
-    estudiante = cursor.fetchone()
-
-    # Consulta para obtener las materias por semestre
-    sql_materias = """
-        SELECT m.nombre_materia, m.semestre
-        FROM materias m
-        JOIN estudiante_materia em ON m.id_materia = em.id_materia
-        WHERE em.id_estudiante = %s
-        ORDER BY m.semestre
-    """
-    cursor.execute(sql_materias, (id_estudiante,))
-    materias = cursor.fetchall()
-
-    # Depuración: imprime las materias obtenidas
-    print("Materias obtenidas:", materias)
+    estudiante = cursor.fetchone()    
 
     # Generar la URL de la foto
     foto_url = url_for('uploads', filename=estudiante[8]) if estudiante[8] else url_for('static', filename='imagenes/default.jpg')
 
-    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
+    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url)
 
 
 #----------------------------------------------------------------------------
