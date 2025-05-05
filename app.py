@@ -151,13 +151,23 @@ def detalles_estudiantes(id_estudiante):
         WHERE e.id_estudiante = %s
     """
     cursor.execute(sql_estudiante, (id_estudiante,))
-    estudiante = cursor.fetchone()    
+    estudiante = cursor.fetchone()
+
+    # Consulta para obtener las materias de la carrera del estudiante
+    sql_materias = """
+        SELECT m.nombre_materia, m.id_semestre
+        FROM materias m
+        JOIN estudiante e ON m.id_carrera = e.id_carrera
+        WHERE e.id_estudiante = %s
+        ORDER BY m.id_semestre
+    """
+    cursor.execute(sql_materias, (id_estudiante,))
+    materias = cursor.fetchall()
 
     # Generar la URL de la foto
     foto_url = url_for('uploads', filename=estudiante[8]) if estudiante[8] else url_for('static', filename='imagenes/default.jpg')
 
-    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url)
-
+    return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
 
 #----------------------------------------------------------------------------
 # Ruta para editar estudiante
