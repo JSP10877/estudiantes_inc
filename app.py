@@ -141,7 +141,7 @@ def adm_estudiantes():
 def detalles_estudiantes(id_estudiante):
     cursor = db.cursor()
 
-    # Consulta para obtener los detalles del estudiante
+    # Consulta para obtener los detalles del estudiante, incluyendo la facultad
     sql_estudiante = """
         SELECT e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, e.fecha_inscripcion, 
                c.nombre_carrera, f.nombre_facultad, e.foto_estudiante
