@@ -95,29 +95,42 @@ def registro_estudiantes():
 @app.route('/adm_estudiantes')
 def adm_estudiantes():
     query = request.args.get('query', '').strip()
+    carrera = request.args.get('carrera', '').strip()
+    orden = request.args.get('orden', '').strip()
     cursor = db.cursor()
 
-    if query:
-        sql = """
-            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
-            FROM estudiante e
-            JOIN carrera c ON e.id_carrera = c.id_carrera
-            WHERE e.nombre1 LIKE %s OR e.nombre2 LIKE %s OR e.apellido1 LIKE %s OR e.apellido2 LIKE %s OR e.correo LIKE %s
-        """
-        like_query = f"%{query}%"
-        cursor.execute(sql, (like_query, like_query, like_query, like_query, like_query))
-    else:
-        sql = """
-            SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante
-            FROM estudiante e
-            JOIN carrera c ON e.id_carrera = c.id_carrera
-        """
-        cursor.execute(sql)
+    # Construir la consulta SQL dinámicamente
+    sql = """
+        SELECT e.id_estudiante, e.nombre1, e.nombre2, e.apellido1, e.apellido2, e.correo, c.nombre_carrera, e.foto_estudiante, e.fecha_inscripcion
+        FROM estudiante e
+        JOIN carrera c ON e.id_carrera = c.id_carrera
+    """
+    filters = []
+    params = []
 
+    if query:
+        filters.append("(e.nombre1 LIKE %s OR e.nombre2 LIKE %s OR e.apellido1 LIKE %s OR e.apellido2 LIKE %s OR e.correo LIKE %s)")
+        like_query = f"%{query}%"
+        params.extend([like_query] * 5)
+
+    if carrera:
+        filters.append("e.id_carrera = %s")
+        params.append(carrera)
+
+    if filters:
+        sql += " WHERE " + " AND ".join(filters)
+
+    if orden == "asc":
+        sql += " ORDER BY e.fecha_inscripcion ASC"
+    elif orden == "desc":
+        sql += " ORDER BY e.fecha_inscripcion DESC"
+
+    cursor.execute(sql, params)
     estudiantes = cursor.fetchall()
 
-    # Depuración: imprime los datos obtenidos
-    print("Estudiantes obtenidos de la base de datos:", estudiantes)
+    # Obtener las carreras para el formulario de filtros
+    cursor.execute("SELECT id_carrera, nombre_carrera FROM carrera")
+    carreras = cursor.fetchall()
 
     estudiantes_con_imagen = []
     for estudiante in estudiantes:
@@ -128,11 +141,7 @@ def adm_estudiantes():
             estudiante[7] = url_for('static', filename='imagenes/default.jpg')
         estudiantes_con_imagen.append(estudiante)
 
-    # Depuración: imprime los datos procesados
-    print("Estudiantes con imagen procesados:", estudiantes_con_imagen)
-
-    return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen)
-
+    return render_template('adm_estudiantes.html', estudiantes=estudiantes_con_imagen, carreras=carreras)
 
 
 #----------------------------------------------------------------------------
