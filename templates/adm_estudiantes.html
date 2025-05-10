@@ -13,6 +13,9 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script para desplegar el menú de filtros-->
+  <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
   
 </head>
 
@@ -38,34 +41,35 @@
                 <img src="{{ url_for('static', filename='imagenes/lupa_estu.png') }}" alt="Buscar">
             </button>
             <div class="icono_2">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#filtros" aria-expanded="false" aria-controls="filtros">
+                <button type="button" id="toggle-filtros" class="btn">
                     <img src="{{ url_for('static', filename='imagenes/filtro_busqueda.png')}}" alt="Filtro de búsqueda">
                 </button>
             </div>
-            
-            <div class="collapse" id="filtros">
-                <form method="GET" action="{{ url_for('adm_estudiantes') }}">
-                    <div class="mb-3">
-                        <label for="carrera" class="form-label">Filtrar por carrera:</label>
-                        <select name="carrera" id="carrera" class="form-select">
-                            <option value="">Todas las carreras</option>
-                            {% for id_carrera, nombre_carrera in carreras %}
-                            <option value="{{ id_carrera }}">{{ nombre_carrera }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="orden" class="form-label">Ordenar por:</label>
-                        <select name="orden" id="orden" class="form-select">
-                            <option value="">Sin ordenar</option>
-                            <option value="asc">Fecha de inscripción (Ascendente)</option>
-                            <option value="desc">Fecha de inscripción (Descendente)</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Aplicar filtros</button>
-                </form>
-            </div>
         </form>
+    
+        <!-- Contenedor de filtros -->
+        <div id="filtros" class="hidden">
+            <form method="GET" action="{{ url_for('adm_estudiantes') }}">
+                <div class="mb-3">
+                    <label for="carrera" class="form-label">Filtrar por carrera:</label>
+                    <select name="carrera" id="carrera" class="form-select">
+                        <option value="">Todas las carreras</option>
+                        {% for id_carrera, nombre_carrera in carreras %}
+                        <option value="{{ id_carrera }}">{{ nombre_carrera }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="orden" class="form-label">Ordenar por fecha:</label>
+                    <select name="orden" id="orden" class="form-select">
+                        <option value="">Sin ordenar</option>
+                        <option value="asc">Fecha de inscripción (Ascendente)</option>
+                        <option value="desc">Fecha de inscripción (Descendente)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+            </form>
+        </div>
     </div>
 
     <div id="contenedor_estudiantes">
@@ -104,6 +108,6 @@
         {% endfor %}
 
     </div>
-
+  
 </body>
 </html>

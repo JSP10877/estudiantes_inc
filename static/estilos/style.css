@@ -193,6 +193,7 @@ form button {
 
 /* Estilo de la barra de búsqueda */
 #barra_de_busqueda {
+    position: relative;
     width: 530px;
     padding: 10px 20px;
     background-color: #e0e0e0;
@@ -241,8 +242,8 @@ form button {
   }
   
   #barra_de_busqueda button img {
-    width: 34px !important;
-    height: 34px !important;
+    width: 34px;
+    height: 34px;
   }
 
 /* Iconos */
@@ -263,6 +264,63 @@ form button {
     top: 6px;
     right: 5px;
 }
+
+/* Botón de filtros */
+#toggle-filtros {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Contenedor de filtros oculto por defecto */
+#filtros.hidden {
+    display: none;
+}
+
+/* Contenedor de filtros visible */
+#filtros {
+    position: absolute;
+    top: 100%; /* Posiciona el formulario justo debajo del botón */
+    left: 0;
+    width: 100%; /* Asegura que el formulario ocupe todo el ancho del contenedor */
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10; /* Asegura que el formulario esté por encima de otros elementos */
+}
+
+/* Estilo de los campos del formulario */
+#filtros .form-label {
+    font-weight: bold;
+}
+
+#filtros .form-select, #filtros .btn {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#filtros .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 15%;
+}
+
+#filtros .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+label[for="orden"] {
+    padding-bottom: 0px;
+}
+
 /* Contenedor principal de estudiantes */
 #contenedor_estudiantes {
     display: grid;
