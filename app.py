@@ -178,6 +178,8 @@ def detalles_estudiantes(id_estudiante):
 
     return render_template('detalles_estudiantes.html', estudiante=estudiante, foto_url=foto_url, materias=materias)
 
+
+
 #----------------------------------------------------------------------------
 # Ruta para editar estudiante
 @app.route('/editar_estudiante/<int:id_estudiante>', methods=['GET', 'POST'])
